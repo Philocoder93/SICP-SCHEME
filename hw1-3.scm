@@ -1,9 +1,12 @@
+(define (sumOfSquares x y)
+  (+ (* x x) (* y y))
+)
+
 (define (func x y z)
-  (define )
-  (if ((not (not (least x y z))))
-    ()
-    ()
-  )
+  (define sorted (recursiveInsertionSort (list x y z)))
+  (display (first sorted))
+  (display (second sorted))
+  (sumOfSquares (first sorted) (second sorted))
 )
 
 ;;; this procedure accounts for all cases,
@@ -15,22 +18,33 @@
 ;;; finding the least will cover three of these cases 1, 2, 4.
 ;;; in 1 and 4 exclude the least, in 2 use any two values
 
-
-(define (least x y z)
+; this works but is crazy inneficient
+(define (recursiveInsertionSort input)
   (cond
-    ((leastSub x y z) (x))
-    ((leastSub y x z) (y))
-    ((leastSub z x y) (z))
-    (else #f)
+    ((= (length+ input) 1)
+      input)
+    ((> (first input) (first (recursiveInsertionSort (cdr input))))
+      (append (list (first input)) (recursiveInsertionSort (cdr input))))
+    (else
+      (append (recursiveInsertionSort (cdr input)) (list (first input))))
   )
 )
 
-(define (leastSub least? other1 other2)
-  (and (< least? other1) (< least? other2))
-)
+(func 2 15 4)
 
-(define (sumOfSquares x y)
-  (+ (* x x) (* y y))
-)
+; (define (whichLeast x y z)
+;   (cond
+;     ((isLeast? x y z) x)
+;     ((isLeast? y x z) y)
+;     ((isLeast? z x y) z)
+;     (else #f)
+;   )
+; )
+
+; (define (isLeast? least? other1 other2)
+;   (and (< least? other1) (< least? other2))
+; )
+
+; (whichLeast 1 4 567)
 
 ;;; maybe rewrite this entire thing with recursion?
