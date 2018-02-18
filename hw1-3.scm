@@ -6,7 +6,12 @@
 ; by finding out how many of the three are larger than at least one other
 ; we can easily differentiate between these cases
 ; if there are two larger than at least one other then those two are the largest
-; 
+; if there are none larger than at least one other then they are all the same value,
+; and you can use any two of them.
+; if there is one larger than at least one other then the three inputs have this
+; relation: a > b, b = c, a > c, in this case check two inputs, if they are equal
+; to one another then the third input is the largest one, if they do not then one of
+; two values you just checked is the larger one
 
 (define (sumOfSquares x y)
   (+ (* x x) (* y y))
