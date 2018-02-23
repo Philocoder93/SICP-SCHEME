@@ -1,15 +1,9 @@
 ; file will recursively traverse pascals triangle and return as
 ;many rows of it in a list as you specify in the counter variable
 
-(define (recursivePascal counter inList)
-  )
 
-
-
-
-
- (if (> counter 1)
-   ((append! pasc (recursivePascal (- counter 1) (nextRow pasc '()))))))
+;
+;
 
 
 
@@ -32,8 +26,14 @@
         outlist
         (list (+ (first inlist) (second inlist)))))))
 
-(nextRow '(1 5 10 10 5 1) '())
+
+(define (recursivePascal counter inList)
+  (cond
+    ((< counter 2) inList)
+    (else (append (list inList) (list (recursivePascal (- counter 1) (nextRow inList '())))))))
+
+;(nextRow '(1 5 10 10 5 1) '())
 
 ;(nextRow '(1 4 6 4 1) '())
 
-;(recursivePascal 2 '(1))
+(recursivePascal 3 '(1 1))
