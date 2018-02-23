@@ -1,39 +1,42 @@
-; file will recursively traverse pascals triangle and return as
-;many rows of it in a list as you specify in the counter variable
+; this version finds a single number in pascals triangle
+; by recursively going up the tree till it encounters base cases
 
-
-;
-;
-
-
-
-
-
-
-
-
-;(define (nth ind list)
-;  (if (= ind 0)
-;    (first list)
-;    (nth (- ind 1) (list-tail list 1))))
-
-(define (nextRow inlist outlist)
-  (if (= (length+ inlist) 1)
-    (append! '(1) outlist '(1))
-    (nextRow
-      (list-tail inlist 1)
-      (append!
-        outlist
-        (list (+ (first inlist) (second inlist)))))))
-
-
-(define (recursivePascal counter inList)
+(define (recursivePascal x y)
   (cond
-    ((< counter 2) inList)
-    (else (append (list inList) (list (recursivePascal (- counter 1) (nextRow inList '())))))))
+    ((or (= x y) (= x 0)) 1)
+    ((> x y) 0)
+    (else (+ (recursivePascal x (- y 1)) (recursivePascal (- x 1) (- y 1))))))
 
-;(nextRow '(1 5 10 10 5 1) '())
+; array Zipper method
 
-;(nextRow '(1 4 6 4 1) '())
+(define (butFirst list1)
+  (list-tail list1 1))
 
-(recursivePascal 3 '(1 1))
+(define (combineFirst list1 list2)
+  (+ (first list1) (first list2)))
+
+(define (arrayZipper list1 list2)
+  (cond
+    ((not (= (length+ list1) (length+ list2))) 'lists_need_to_be_same_length)
+    ((= (length+ list1) 1) (list (combineFirst list1 list2)))
+    (else (append (list (combineFirst list1 list2)) (arrayZipper (butFirst list1) (butFirst list2))))))
+
+; iterator to wrap the array zipper and implement
+; the algorithm i thought up
+
+(define (zeroToFront list1)
+  (append '(0) list1))
+
+(define (zeroToBack list1)
+  (append list1 '(0)))
+
+; this version computes n rows of pascals triangle depending on the input
+(define (computeNRowsPascal count list1)
+  (if (= count 1)
+    list1
+    (append (list list1) (list (computeNRowsPascal (- count 1) (arrayZipper (zeroToFront list1) (zeroToBack list1)))))))
+
+
+(arrayZipper '(1 1 1 2) '(1 1 1 6))
+
+(computeNRowsPascal 5 '(1))
