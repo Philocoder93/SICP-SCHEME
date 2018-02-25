@@ -57,3 +57,5 @@ typings/
 # dotenv environment variables file
 .env
 
+# folder of material not under license
+notUnderLicense
