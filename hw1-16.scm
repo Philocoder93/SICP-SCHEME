@@ -17,9 +17,6 @@
 (define (canSquare N NA)
   (<= (* NA 2) N))
 
-;(define (shouldSquare N NA)
-;  )
-
 (define (exponentiateIter B N A NA)
   (cond
     ((<= N NA) A)
