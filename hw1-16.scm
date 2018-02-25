@@ -2,29 +2,39 @@
 ; value of a certain base raised to a certain power, it will have a logarithmic growth rate
 ; of steps
 
+; one possible way of improving this algorithm is to have it approach the desired
+; power from both sides, ie, if the desired power is just below the power that could be reached by
+; squaring the current accumulator then we should square the current accumulator and then iterate down
+; by dividing a couple of times by the base
+; just a thought for future
+
 (define (isEven N)
   (= (modulo N 2) 0))
 
-(define (isOdd N)
-  (not (isEven N)))
+(define (square N)
+  (* N N))
 
-(define (exponentiateEven A)
-  (display 'Even) (newline )
-  (* A A))
+(define (canSquare N NA)
+  (<= (* NA 2) N))
 
-(define (exponentiateOdd B A)
-  (display 'Odd) (newline )
-  (* B A))
+;(define (shouldSquare N NA)
+;  )
 
-(define (exponentiateIter B N A)
-  (display B) (display 'X) (display N) (display 'X) (display A) (newline )
+(define (exponentiateIter B N A NA)
   (cond
-    ((= N 0) A)
-    ((isEven N) (exponentiateIter B (- N 2) (exponentiateEven A)))
-    ((isOdd N) (exponentiateIter B (- N 1) (exponentiateOdd B A)))))
+    ((<= N NA) A)
+    ((and (isEven NA) (canSquare N NA)) (exponentiateIter B N (square A) (* NA 2)))
+    (else (exponentiateIter B N (* B A) (+ NA 1)))))
 
 (define (exponentiate B N)
-  (exponentiateIter B (- N 1) B))
+  (exponentiateIter B N B 1))
 
+(isEven 5)
 
-(exponentiate 5 5)
+(square 5)
+
+(canSquare 15 4)
+
+(exponentiate 2 37)
+
+; end of stream
