@@ -83,12 +83,12 @@
 
 (define (bottom_right_rectangle rec)
   (car (bottom_row_rectangle rec)))
-
-; now we are at a different level of abstraction here, this following layer will simply use the methods
-; layed out above to manipulate rectangle regardless of what is going on under the hood in those methods
-
-; for these methods I am going to put off implementing data type checks to insure improper data checks
-
+;
+; ; now we are at a different level of abstraction here, this following layer will simply use the methods
+; ; layed out above to manipulate rectangle regardless of what is going on under the hood in those methods
+;
+; ; for these methods I am going to put off implementing data type checks to insure improper data checks
+;
 (define (rectangle_perimeter rec)
   (let ((absDif (lambda (a b) (abs (- a b)))))
     (let
@@ -111,4 +111,44 @@
 (newline )
 (display (rectangle_area testRec))
 
+)
+
+
+
+; this is the new implementation for the rectangle methods
+
+
+(define (make_rectangle p1 p2 p3 p4)
+  (define (formRectangle? p1 p2 p3 p4)
+    (let ((compx (lambda (a b) (= (x_point a) (x_point b)))) (compy (lambda (a b) (= (y_point a) (y_point b)))))
+      (and (compy p1 p2) (compx p2 p3) (compy p3 p4) (compx p4 p1))))
+
+  (if (formRectangle? p1 p2 p3 p4)
+    (list p1 p2 p4 p3)
+    'top_left_to_bottom_left_only))
+
+(define (top_row_rectangle rec)
+  (sublist rec 0 2))
+
+(define (bottom_row_rectangle rec)
+  (sublist rec 2 4))
+
+(define (top_left_rectangle rec)
+  (first rec))
+
+(define (top_right_rectangle rec)
+  (second rec))
+
+(define (bottom_left_rectangle rec)
+  (third rec))
+
+(define (bottom_right_rectangle rec)
+  (fourth rec))
+
+(let ((testRec (make_rectangle (make_point 1 6) (make_point 5 6) (make_point 5 1) (make_point 1 1))))
+(display testRec)
+(newline )
+(display (rectangle_perimeter testRec))
+(newline )
+(display (rectangle_area testRec))
 )
