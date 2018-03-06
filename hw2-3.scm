@@ -83,3 +83,32 @@
 
 (define (bottom_right_rectangle rec)
   (car (bottom_row_rectangle rec)))
+
+; now we are at a different level of abstraction here, this following layer will simply use the methods
+; layed out above to manipulate rectangle regardless of what is going on under the hood in those methods
+
+; for these methods I am going to put off implementing data type checks to insure improper data checks
+
+(define (rectangle_perimeter rec)
+  (let ((absDif (lambda (a b) (abs (- a b)))))
+    (let
+      ((horz (absDif (x_point (top_left_rectangle rec)) (x_point (top_right_rectangle rec))))
+      (vert (absDif (y_point (top_right_rectangle rec)) (y_point (bottom_right_rectangle rec)))))
+        (* (+ horz vert) 2))))
+
+(define (rectangle_area rec)
+  (let ((absDif (lambda (a b) (abs (- a b)))))
+    (let
+      ((horz (absDif (x_point (top_left_rectangle rec)) (x_point (top_right_rectangle rec))))
+      (vert (absDif (y_point (top_right_rectangle rec)) (y_point (bottom_right_rectangle rec)))))
+        (* horz vert))))
+
+(let ((testRec (make_rectangle (make_point 1 6) (make_point 5 6) (make_point 5 1) (make_point 1 1))))
+
+(display testRec)
+(newline )
+(display (rectangle_perimeter testRec))
+(newline )
+(display (rectangle_area testRec))
+
+)
