@@ -38,4 +38,16 @@
 
   (num2s3sIter N 0 0))
 
-(num2s3s 72)
+
+(define (custCons 1st 2nd)
+  (* (Nth 2 1st) (Nth 3 2nd)))
+
+(define (custCar N)
+  (car (num2s3s N)))
+
+(define (custCdr N)
+  (cdr (num2s3s N)))
+
+(custCar (custCons 6 7))
+
+(custCdr (custCons 4 5))
