@@ -71,3 +71,5 @@
 ; amplifies the variance and the addition in the denominator of method 2 introduces some of that
 ; amplified variance into the actual center point which accounts for the slight difference of endpoint
 ; (albeit a slight difference that becomes quite great when you have intervals with a high variance)
+
+(interval-division (cons-interval 2 8) (cons-interval 2 8))
