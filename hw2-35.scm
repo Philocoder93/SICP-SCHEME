@@ -11,7 +11,7 @@
     (else (list lst))))
 
 (define (leaf-count t)
-  (accum (lambda (x y) (+ y 1)) 0 (map get-fringe (list t))))
+  (accum (lambda (x y) (+ y 1)) 0 (car (map get-fringe (list t)))))
 
 
-(define (leaf-count (list 4 5 5 (list 1 2 3 (list 3 4 5)))))
+(leaf-count (list 4 5 5 (list 1 2 3 (list 3 4 5))))
