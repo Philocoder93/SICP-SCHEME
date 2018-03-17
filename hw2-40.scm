@@ -46,7 +46,10 @@
         (mapper
           (lambda (y)
             (list x y))
-          (enum-seq x)))
+          (enum-seq n)))
       (enum-seq n))))
 
 (all-unique-pairs 6)
+
+; after looking at this again it is somewhat ambiguous to me if they meant ordered pairs here,
+; I have corrected the code to assume that they meant unique ordered pairs
