@@ -50,10 +50,8 @@
             (enum-seq n)))
           (enum-seq n))))
 
-(define (empty-board n)
-  (mapper
-    (lambda (y) '() )
-    (enum-seq n)))
+; (define (empty-board n)
+;   )
 
 (define (adjoin-position x y rest-of-queens)
   (display x) (display '__) (display y) (display '__) (display rest-of-queens) (newline )
@@ -63,19 +61,26 @@
 ; of all the ordered pairs along the right side of the board, also for the purpose of this exercise
 ; the
 
+; (define (safe? pos)
+;   (display pos)
+;   (if (null? pos)
+;     #t
+;     (let (
+;           (sameY (= () (sec pos)))
+;           )
+;       (if (sameY)
+;         #f
+;         #t))))
+
 (define (safe? pos)
-  (let (
-        (sameY (= (caar pos) (cadr pos)))
-        )
-    (if (sameY)
-      #f
-      #t)))
+    (if (> (length+ pos) 1)
+      (not (= (cdar pos) (cdadr pos)))
+      #t))
 
 (define (my-queens-puzzle n)
-
   (define (my-queens-col k)
     (if (= k 0)
-      (empty-board n)
+      (list '())
       (filter
         (lambda (positions) (safe? positions))
         (flat-mapper
@@ -86,4 +91,4 @@
           (my-queens-col (- k 1))))))
   (my-queens-col n))
 
-(my-queens-puzzle 2)
+(my-queens-puzzle 3)
