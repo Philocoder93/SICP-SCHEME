@@ -74,7 +74,9 @@
 
 (define (safe? pos)
     (if (> (length+ pos) 1)
-      (not (= (cdar pos) (cdadr pos)))
+      (cond
+        ((not (= (cdar pos) (cdadr pos))) (safe? (cons (car pos) (cddr pos))))
+        (else #f))
       #t))
 
 (define (my-queens-puzzle n)
