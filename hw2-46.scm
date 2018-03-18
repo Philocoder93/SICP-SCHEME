@@ -12,13 +12,13 @@
 ; abstraction barrier here
 
 (define (add-vect a b)
-  (cons (+ (x-vect a) (x-vect b)) (+ (y-vect a) (y-vect b))))
+  (cons-vect (+ (x-vect a) (x-vect b)) (+ (y-vect a) (y-vect b))))
 
 (define (sub-vect a b)
-  (cons (- (x-vect a) (x-vect b)) (- (y-vect a) (y-vect b))))
+  (cons-vect (- (x-vect a) (x-vect b)) (- (y-vect a) (y-vect b))))
 
 (define (scal-vect vect scalar)
-  (cons (* (x-vect vect) scalar) (* (y-vect vect) scalar)))
+  (cons-vect (* (x-vect vect) scalar) (* (y-vect vect) scalar)))
 
 ; and an abstraction barrier here from any later applications for these procedures
 
