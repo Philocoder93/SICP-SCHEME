@@ -54,29 +54,25 @@
 ;   )
 
 (define (adjoin-position x y rest-of-queens)
-  (display x) (display '__) (display y) (display '__) (display rest-of-queens) (newline )
   (cons (cons x y) rest-of-queens))
 ; for the purposes of this exercise, configurations of already placed queens will be
 ; arrays of ordered pairs, the empty-board will serve this purpose by generating an array of arrays
 ; of all the ordered pairs along the right side of the board, also for the purpose of this exercise
 ; the
 
-; (define (safe? pos)
-;   (display pos)
-;   (if (null? pos)
-;     #t
-;     (let (
-;           (sameY (= () (sec pos)))
-;           )
-;       (if (sameY)
-;         #f
-;         #t))))
+(define (diag x y)
+  (or (= (+ (car x) (cdr x)) (+ (car y) (cdr y))) (= (- (car x) (cdr x)) (- (car y) (cdr y)))))
 
 (define (safe? pos)
     (if (> (length+ pos) 1)
-      (cond
-        ((not (= (cdar pos) (cdadr pos))) (safe? (cons (car pos) (cddr pos))))
-        (else #f))
+      (let (
+            (sameRow? (= (cdar pos) (cdadr pos)))
+            (diagonal? (diag (car pos) (cadr pos)))
+            (nor (lambda (x y) (not (or x y))))
+            )
+        (cond
+          ((nor sameRow? diagonal?) (safe? (cons (car pos) (cddr pos))))
+          (else #f)))
       #t))
 
 (define (my-queens-puzzle n)
@@ -93,4 +89,4 @@
           (my-queens-col (- k 1))))))
   (my-queens-col n))
 
-(my-queens-puzzle 3)
+(cadr (my-queens-puzzle 6))
