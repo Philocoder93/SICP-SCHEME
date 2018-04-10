@@ -37,7 +37,8 @@
 						(second-arg (second args))
 						(which-higher (raise-checker first-arg second-arg)))
 						(cond
-							((= which-higher 'one_is_greater) )
-							((= which-higher 'two_is_greater) )
-							((= which-higher 'same-type))
-							
+							((= which-higher 'one_is_greater) ((get op first-arg (raise-a-to-b second-arg first-arg)) first-arg (raise-a-to-b second-arg first-arg)))
+							((= which-higher 'two_is_greater) ((get op second-arg (raise-a-to-b first-arg second-arg)) second-arg (raise-a-to-b first-arg second-arg)))
+							((= which-higher 'same-type) (error "arguments are the same type but there is no operation for them, perhaps there is no operation by that name")
+							(else (error "wrong number of args"))))
+					(error "wrong number of args")))))))
