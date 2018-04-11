@@ -4,8 +4,12 @@
 (define (install-rational)
 	(define (get-denominator x)
 		(denom x))
+	(define (get-numerator x)
+		(numer x))
 	(put 'get-denominator 'rational
 		(lambda (x) (get-denominator x)))
+	(put 'get-numerator 'rational
+		(lambda (x) (get-numerator x)))
 )
 
 (define (install-real)
@@ -31,7 +35,7 @@
 		(error "can't drop a number"))
 
 	(define (rational-number-drop x)
-		(if (generically-apply)
+		(/ (get-numerator x) (get-denominator x)))
 
 	(define (rational-number-zero-equals x)
 		((get 'equals 'rational) ((get 'make 'rational) 0 0) x)) 
