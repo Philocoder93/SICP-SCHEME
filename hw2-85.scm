@@ -27,32 +27,40 @@
 (define (install-complex
 	(define (get-complex-part x)
 		(imag-part x))
+	(define (get-real-part x)
+		(real-part x))
 	(put 'get-complex-part 'complex
-		(lambda (x) (get-complex-part x)))))
+		(lambda (x) (get-complex-part x)))
+	(put 'get-real-part 'complex
+		(lambda (x) (get-real-part x)))))
 
 (define (install-drop)
 	(define (scheme-number-drop x)
 		(error "can't drop a number"))
 
 	(define (rational-number-drop x)
-		(/ (get-numerator x) (get-denominator x)))
+		(if (= 0 (modulo (numer x) (denom x)))
+			(/ (generically-apply 'get-numerator x) (generically-apply 'get-denominator x))
+			(error "can't drop this rational number")))
 
-	(define (rational-number-zero-equals x)
-		((get 'equals 'rational) ((get 'make 'rational) 0 0) x)) 
+	(define (real-number-drop x)
+		(if (generically-apply 'express-as-rational x)
+			(generically-apply 'express-as-rational x)
+			(error "can't drop this real number")))
 
-	(define (rational-number-zero-equals x)
-		((get 'equals 'rational) ((get 'make 'rational) 0 0) x)) 
+	(define (complex-number-drop x)
+		(if (= 0 (generically-apply 'get-complex-part x))
+			(generically-apply 'get-real-part x)
+			(error "can't drop this complex number")))
 
-
-	(put 'drop '(scheme-number) 
-		(lambda (x) (scheme-number-zero-equals x))) 
+	(put 'drop '(scheme-number)
+		(lambda (x) (scheme-number-drops x))) 
 
 	(put 'drop '(rational)
-		(lambda (x) (complex-zero-equals x))) 
+		(lambda (x) (rational-number-drop x))) 
 
 	(put 'drop '(real)
-		(lambda (x) (rational-number-zero-equals x))))
+		(lambda (x) (real-number-drop x)))
 
 	(put 'drop '(complex)
-		(lambda (x) (rational-number-zero-equals x))))
-
+		(lambda (x) (complex-number-drop x))))
