@@ -4,9 +4,6 @@
 
 	(define (completed? x)
 		(define (completed-iter x x-list)
-			(newline )
-			(display 'fire)
-			(display x-list)
 			(cond
 				((null? x-list) #f)
 				((eq? x (first x-list)) #t)
@@ -14,16 +11,14 @@
 		(completed-iter x completed-list))
 
 	(define (add-to-completed x)
-		(display 'this-is-it)
-		(display x)
 		(if (null? completed-list)
 			(set! completed-list (cons x '()))
 			(set-cdr! (last-pair completed-list) (cons x '()))))
 
 	(define (memoized-count-pairs x)
 		(cond
-			((not (pair? x)) (display 'crap))
-			((completed? x) (display 'shit))
+			((not (pair? x)) 0)
+			((completed? x) 0)
 			(else (begin
 				(add-to-completed x)
 				(+
@@ -39,7 +34,7 @@
 
 count-pairs
 
-(define test-example (cons (cons 'a 'b) (cons 'c 'd)))
+(define test-example (cons (cons 'a (cons 'b 'e)) (cons 'c 'd)))
 
 (count-pairs test-example)
 
