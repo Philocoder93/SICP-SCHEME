@@ -1,11 +1,28 @@
+(define (nth-cdr n lst)
+	(if (= n 0)
+		lst
+		(cdr (nth-cdr (- n 1) lst))))
+
+(define test-list (list 'A 'B 'C 'D 'E))
+(set-cdr! (last-pair test-list) test-list)
+
+
+(car (nth-cdr 0 test-list))
+
+(car (nth-cdr 2 test-list))
+
+(car (nth-cdr 4 test-list))
+
+(eq? (nth-cdr 0 test-list) (nth-cdr 5 test-list))
+
+
+(error "stop here")
 (define (ultra-cycle-sniffer hlst)
 	(define (cycle-sniffer lst)
 		(define initial lst)
 		(display 'fireinner)
 		(newline )
 		(define (cycle-catcher-iter cur)
-			(display 'firewayinner)
-			(newline )
 			(cond
 				((not (pair? cur)) #f)
 				((null? (cdr cur)) #f)
@@ -55,4 +72,31 @@
 ; that is, if the last pair in the linked list will have the entire original list
 ; as it's cdr, if it has a subset of the linked list then you need a modified version
 ; of this
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(define (top-level func lst)
+	(
+
+
+
+
+
+
+
+
+
 
