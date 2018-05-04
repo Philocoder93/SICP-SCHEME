@@ -1,7 +1,4 @@
-; there needs to be a new paradigm for deqs
-; basically they need to be constructed out of something besides
-; pairs, i have chosen to build them out of links
-
+;i have chosen to construct new deks out of a new data structure called a lnk
 
 (define (make-lnk x) (list '() x '()))
 
@@ -9,16 +6,13 @@
 
 (define (get-val-lnk lnk) (second lnk))
 
-(define (back-point-lnk lnk) (third lnk))
+(define (rear-point-lnk lnk) (third lnk))
 
 (define (set-front-lnk lnk x) (set-car! lnk x))
 
-(define (set-back-lnk lnk x) (set-car! (cddr lnk) x))
+(define (set-rear-lnk lnk x) (set-car! (cddr lnk) x))
 
 ;abstraction layer
-
-; the book reccomends using more basic operations, i don't think you actually need that many core operations
-; you can do a lot of this stuff much more simply with less core operations
 
 (define (make-dek )
 	(let ((nu-lnk (make-lnk '())))
@@ -28,66 +22,93 @@
 	(eq? (front-dek dek) '()))
 
 (define (front-dek dek)
-	(car (get-val-lnk dek)))
+	(get-val-lnk (car dek)))
 
 (define (rear-dek dek)
-	(cdr (get-val-lnk dek)))
+	(get-val-lnk (cdr dek)))
 
 (define (insert-front-dek dek x)
-	(let ((nu-lnk (make-lnk x)))
-		(set-front-lnk (car dek) nu-lnk)
-		(set-car! dek nu-lnk)))
+	(display 'start)
+	(if (null? (front-dek dek))
+		(let ((nu-lnk (make-lnk x)))
+			(display 'fire1)
+			(set-car! dek nu-lnk)
+			(display 'fire2)
+			(set-cdr! dek nu-lnk))
+		(let ((nu-lnk (make-lnk x)))
+			(set-front-lnk (car dek) nu-lnk)
+			(set-rear-lnk nu-lnk (car dek))
+			(set-car! dek nu-lnk))))
 
 (define (insert-rear-dek dek x)
-	(let ((nu-lnk (make-lnk x)))
-		(set-back-lnk (cdr dek) nu-lnk)
-		(set-cdr! dek nu-lnk)))
+	(display 'staaaart)
+	(if (null? (front-dek dek))
+		(let ((nu-lnk (make-lnk x)))
+			(display 'fire3)
+			(set-car! dek nu-lnk)
+			(display 'fire4)
+			(set-cdr! dek nu-lnk))
+		(let ((nu-lnk (make-lnk x)))
+			(set-rear-lnk (cdr dek) nu-lnk)
+			(set-front-lnk nu-lnk (cdr dek))
+			(set-cdr! dek nu-lnk))))
 
-(define (i
+(define (delete-front-dek dek)
+	(if (eq? (car dek) (cdr dek))
+		(let ((nu-lnk (make-lnk '())))
+			(set-car! dek nu-lnk)
+			(set-cdr! dek nu-lnk))
+		(let ((nu-lnk (rear-point-lnk (car dek))))
+			(set-front-lnk nu-lnk '())
+			(set-car! dek nu-lnk))))
 
+(define (delete-rear-dek dek)
+	(if (eq? (car dek) (cdr dek))
+		(let ((nu-lnk (make-lnk '())))
+			(set-car! dek nu-lnk)
+			(set-cdr! dek nu-lnk))
+		(let ((nu-lnk (front-point-lnk (cdr dek))))
+			(set-rear-lnk nu-lnk '())
+			(set-cdr! dek nu-lnk))))
 
+;testing out the data abstraction layer
 
+(empty-dek (make-dek ))
 
+(define newdek (make-dek ))
 
+(insert-front-dek newdek 'this)
 
-;abstraction layer
+(insert-rear-dek newdek 'that)
 
-(define (make-queue
+(front-dek newdek)
 
-(define (empty-dek dek) (null? (front-point dek)))
+(rear-dek newdek)
 
-(define (front-dek dek)
-	(if (empty-dek dek)
-		(error "empty")
-		(car (front-point dek))))
+(insert-front-dek newdek 'other)
 
-(define (back-dek dek)
-	(if (empty-dek dek)
-		(error "empty")
-		(car (back-point dek))))
+(insert-rear-dek newdek 'whatevs)
 
-(define (front-insert-dek! dek x)
-	(cond
-		((empty-dek dek)
-			(set-front! dek x)
-			(set-back! dek x))
-		(else
-			(set-front! dek (cons x (front-point x)))
-			)))
+(front-dek newdek)
 
-(define (back-insert-dek! dek x)
-	(cond
-		((empty-dek dek)
-			(set-front! dek x)
-			(set-back! dek x))
-		(else
-			(let ((new (cons x '())))
-				(set-cdr! (back-point x) new)
-				(set-back! dek new)))))
-	
+(rear-dek newdek)
 
-(define (front-delete-dek! dek)
-	(set-front! dek (cdr (front-point dek))))
+(delete-front-dek newdek)
 
-(define (back-delete-dek! dek)
-	(set-front! dek ))
+(delete-rear-dek newdek)
+
+(front-dek newdek)
+
+(rear-dek newdek)
+
+(delete-front-dek newdek)
+
+(front-dek newdek)
+
+(rear-dek newdek)
+
+(delete-front-dek newdek)
+
+(front-dek newdek)
+
+(rear-dek newdek)
