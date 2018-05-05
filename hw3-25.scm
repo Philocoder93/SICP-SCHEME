@@ -8,7 +8,7 @@
 	(cond
 		((null? recs) false)
 		((eq-check? rec-key (caar recs)) (car recs))
-		(else (association rec-key (cdr recs)))))
+		(else (association eq-check rec-key (cdr recs)))))
 
 (define (lookup key-list)
 	(define (lookup-iter key-list lcl-table)
@@ -38,11 +38,11 @@
 			(record (if too-few-keys?
 				#f
 				(association eq-check? first-key (cdr lcl-table)))))
-				(display 'makingitthisfar)
 				(cond
 					( too-few-keys? (error "Need key list"))
 					( (and no-keys-remaining? record)
-						(set-cdr! record value))
+						(set-cdr! record value)
+						)
 					( (and no-keys-remaining? (not record))
 						(set-cdr! lcl-table
 							(cons
@@ -53,9 +53,9 @@
 					( (not record)
 						(set-cdr! lcl-table
 							(cons
-								(cons first-key (list 'listHeader))
-								(cdr lcl-table))
-						(insert-iter! key-list value lcl-table)))
+								(list first-key)
+								(cdr lcl-table)))
+						(insert-iter! key-list value lcl-table))
 					(else (error "something is broken, you should never hit this part")))))
 	(insert-iter! key-list value local-table))
 
@@ -78,6 +78,9 @@ dispatch))
 (define insert (dispatch 'insert!))
 
 (insert (list 'first) 'val)
-(insert (list 'first 'second) 'val)
+(insert (list 'second 'third) 'otherVal)
+(insert (list 'second 'fourth) 'thirdVal)
 
 (lookup (list 'first))
+(lookup (list 'second 'third))
+(lookup (list 'second 'fourth))
