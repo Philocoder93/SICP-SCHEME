@@ -26,4 +26,7 @@
 
 ; an example of how this could fail in preserving amount is as follows
 
-; imagine 1 transfers it's difference into 2, but now suppose that inbetween the withdrawal and deposit
+; suppose that you set out to transfer from 1 to 2 and also to transfer from 1 to 3, let us further suppose that transactions on
+; 1 are not serialized, in that case let us suppose that both of the withdrawal operations fire on 1 at the same time,
+; in that instance both of the withdrawal operations read the current balance simultaneously and then set the balance in the account twice,
+; resulting ultimately in the value that it would have had had only one of the withdrawals occured.
