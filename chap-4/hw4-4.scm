@@ -1,6 +1,8 @@
 ; example of what would be coming through
-; (and expr expr)
-; (or expr expr)
+; (and expr expr ...)
+; (or expr expr ...)
+; also remember, from the perspecive of the interpreter
+; all this stuff is interpretable as a list of various things
 
 (define (eval-this expr env)
 	(cond
@@ -22,25 +24,20 @@
 (define (first-expr expr-lst)
 	(car expr-lst))
 
-(define (second-expr expr-lst)
-	(cadr expr-lst))
+(define (rest-expr expr-lst)
+	(cdr expr-lst))
 
-(define (and-eval? expr env)
-	(if (not (eval (first-expr expr) env))
-		#f
-		(if (not (eval (second-expr expr) env))
-			#f
-			#t)))
+(define (expr-empty expr-lst)
+	(null? expr-lst))
 
-(define (or-eval expr env)
-	(if (eval (first-expr expr) env)
-		#t
-		(if (eval (second-expr expr) env)
-			#t
-			#f)))
+(define (and-eval? expr-lst env)
+	(cond (
+		((exp-empty expr-lst) #t)
+		((not (eval (first-expr expr-lst) env)) #f)
+		(else (and-eval? (rest-expr expr-lst) env)))))
 
-
-; this solution is basically correct but I forgot to account for the fact
-; that most scheme ops can take a bazillion args if the operation allows for it
-; and "and" and "or" are both just such args, so this needs to be rewritten in a way that\
-; accounts for the fact that there could be N number of args
+(define (or-eval? expr-lst env)
+	(cond (
+		((exp-empty expr-lst) #f)
+		((eval (first-expr expr-lst) env) #t)
+		(else (or-eval? (rest-expr expr-lst) env)))))
