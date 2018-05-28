@@ -4,7 +4,7 @@
 (define (eval-let? expr env)
 	(eval-expr
 		((make-lambda
-			(get-vars (let-get-asgn-lst expr))
+			(let-get-vars (let-get-asgn-lst expr))
 			(let-get-body expr))
 		(get-vals (let-get-asgn-lst expr))
 		env)
